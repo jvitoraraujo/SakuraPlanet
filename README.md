@@ -36,8 +36,10 @@ O layout é de duas colunas (posts e sidebar à direita), com cabeçalho em bann
 
 ## Recursos
 - **Paleta única** definida em `:root` (`--sp-*`), fácil de alterar.
-- **Menu em pílulas** rosa, com hover azul.
+- **Menu em pílulas** rosa, com hover azul. No celular (até 860 px) vira um **menu suspenso** com botão "☰ Menu".
 - **Paginação numerada** (`‹ 1 … 3 [4] 5 … 12 ›`) para página inicial, marcadores e busca, com os links nativos do Blogger como alternativa se o script falhar.
+- **Layout responsivo:** o celular usa o mesmo visual do site (menu, posts, sidebar, paginação, comentários e rodapé), com a sidebar abaixo dos posts.
+- **Sidebar alinhada aos posts:** mesmo topo, mesmo espaçamento (`--sp-gap`) e mesma largura de cartão.
 - **Botão de voltar ao topo** sem jQuery.
 - Comentários, citações, rodapé e sidebar recoloridos na mesma paleta.
 - Fontes decorativas (Sofia, Playball, Cookie) numa única chamada, com `display=swap`.
@@ -59,14 +61,15 @@ O layout é de duas colunas (posts e sidebar à direita), com cabeçalho em bann
 ## Instalação
 1. No Blogger, abra **Tema** e use **Backup/Restaurar › Fazer download** para guardar o tema atual.
 2. Em **Backup/Restaurar › Fazer upload**, envie `theme/sakura-planet-theme.xml`.
-3. Em **Layout › Cabeçalho › Editar**, envie `assets/logo-sakura-planet.png` e salve.
+3. Em **Layout › Cabeçalho › Editar**, envie `assets/logo-sakura-planet.png` e salve. O tema desenha a logo como imagem responsiva, então ela se ajusta sozinha ao tamanho da tela.
 4. Confira a configuração abaixo e teste o blog.
 
 Antes de publicar, abra a página inicial, um marcador, a busca e um post, no computador e no celular, e teste uma página numerada.
 
 ## Configuração
+- **Celular:** o tema já é responsivo. Para garantir que o Blogger não use o modelo simplificado, abra **Tema › ⚙ ao lado de "Personalizar" › Tema para dispositivos móveis** e escolha **"Não. Mostrar o modelo para computador em dispositivos móveis"**. Há também um script de reserva no `<head>` que troca `?m=1` por `?m=0`.
 - **Postagens por página:** em `Configurações › Postagens`, o campo "Número de postagens na página principal" deve ser igual ao valor `perPage` do script do `page-navi` (padrão: `5`). Se forem diferentes, a contagem de páginas fica errada.
-- **Menu:** edite o gadget HTML do topo. Cada item segue o padrão `<div class="menuattitude"><a href="...">Nome</a></div>`.
+- **Menu:** edite o gadget HTML do topo. Cada item segue o padrão `<div class="menuattitude"><a href="...">Nome</a></div>`. O botão do menu suspenso é criado por script, então não precisa de marcação extra; mantenha todos os itens juntos no mesmo gadget.
 - **AdSense:** o ID do editor está no cabeçalho do XML e no gadget "Publicidade". Troque pelo seu se reutilizar o tema.
 
 ## Guideline visual
@@ -92,7 +95,8 @@ Regras principais:
 ## Limitações conhecidas
 - A paginação numerada usa o feed do Blogger. Quem entra por um link direto de uma página interna, sem o `#PageNo=` na URL, vê a página 1 destacada.
 - Em páginas de post e de arquivo, o tema usa os links "mais recentes / mais antigas" do Blogger.
-- O layout foi pensado para desktop (largura de 1100 px). A versão móvel é a padrão do Blogger.
+- O layout tem largura máxima de 1020 px e empilha as colunas abaixo de 860 px. Gadgets de terceiros com largura fixa (iframes, banners) são limitados a 100%, mas conteúdo antigo dentro dos posts pode precisar de ajuste.
+- Com o modelo móvel do Blogger desativado, recursos exclusivos dele (como a capa em lista) deixam de existir.
 
 ## Créditos
 - **Modelo base "Travel"**: Sookhee Lee — [plyfly.net](https://www.plyfly.net).

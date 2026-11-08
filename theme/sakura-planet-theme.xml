@@ -5,12 +5,14 @@
 <meta content='IE=edge' http-equiv='X-UA-Compatible'/>
     <meta charset='utf-8'/>
     <meta content='#faa7b9' name='theme-color'/>
-    <b:if cond='data:blog.isMobile'>
-      <meta content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0' name='viewport'/>
-    <b:else/>
-      <meta content='width=1100' name='viewport'/>
-    </b:if>
+    <meta content='width=device-width, initial-scale=1' name='viewport'/>
     <b:include data='blog' name='all-head-content'/>
+    <script>
+    //<![CDATA[
+    /* Garante o layout completo no celular, mesmo se o Blogger servir o modelo simplificado (?m=1) */
+    (function () { var l = window.location; if (/[?&]m=1(&|$)/.test(l.search)) { l.replace(l.href.replace(/([?&])m=1/, '$1m=0')); } })();
+    //]]>
+    </script>
     <title><data:blog.pageTitle/></title>
 
     <b:skin><![CDATA[/*
@@ -157,6 +159,7 @@ URL:      www.plyfly.net
   --sp-fonte-titulo: 'Playball', cursive;
   --sp-fonte-menu: 'Sofia', cursive;
   --sp-fonte-destaque: 'Cookie', cursive;
+  --sp-gap: 20px;
   --sp-fonte-texto: 'Trebuchet MS', Trebuchet, Arial, sans-serif;
 }
 
@@ -175,7 +178,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sp-azul-700); o
 img { max-width: 100%; height: auto; }
 .content-outer { margin: 0 auto; }
 .content-outer .content-cap-top { background: transparent; }
-.main-inner .date-outer { margin-bottom: 2em; }
 .status-msg-wrap { display: none; }
 .feed-links { display: none; }
 
@@ -184,6 +186,11 @@ img { max-width: 100%; height: auto; }
 .Header .titlewrapper, .header-inner .Header .descriptionwrapper { padding-left: 10px; padding-right: 10px; }
 .Header h1, .Header h1 a { font: normal normal 0px 'Trebuchet MS', Trebuchet, sans-serif; color: transparent; }
 .Header .description { font-size: 130%; color: var(--sp-texto-suave); }
+
+/* ---------- Logo do cabecalho (responsiva) ---------- */
+.sp-logo-link { display: block; }
+.Header img.sp-logo { display: block; width: 100%; max-width: 1100px; height: auto; margin: 0 auto; }
+.sp-visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ---------- Menu horizontal ---------- */
 .tabs-inner { margin: 1em 0 0; padding: 0; }
@@ -206,6 +213,8 @@ img { max-width: 100%; height: auto; }
 .menuattitude:hover { background: var(--sp-azul-700); border-color: var(--sp-azul-700); }
 .menuattitude:hover a { color: var(--sp-branco); }
 
+.sp-menu-toggle { display: none; }
+
 /* ---------- Titulos de widget (sidebar) ---------- */
 .sidebar h2 {
   font-family: var(--sp-fonte-menu);
@@ -220,14 +229,12 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ---------- Layout principal ---------- */
-.main-inner { padding: 20px 0; margin-top: -30px; }
-.main-inner .column-center-inner { padding: 10px 0; }
-.main-inner .column-center-inner .section { margin: 0 10px; }
-.main-inner .column-right-inner { margin-left: 20px; }
-.main-inner .fauxcolumn-right-outer .fauxcolumn-inner { margin-left: 20px; background: transparent; }
-.main-inner .column-left-inner { margin-right: 20px; }
-.main-inner .fauxcolumn-left-outer .fauxcolumn-inner { margin-right: 20px; background: transparent; }
-.main-inner .column-left-inner, .main-inner .column-right-inner { padding: 15px 0; }
+/* Posts e sidebar partem da mesma linha de topo e usam o mesmo espaçamento (--sp-gap) */
+.main-inner { padding: 20px 0; margin-top: -8px; } /* espaco entre o menu e o corpo (antes feito por um gadget vazio) */
+#crosscol-overflow { display: none; }
+.main-inner .column-center-inner, .main-inner .column-right-inner { padding: 0; margin: 0; }
+.main-inner .column-center-inner .section, .main-inner .column-right-inner .section { margin: 0; }
+.main-inner .date-outer { position: relative; margin: 0; }
 
 /* ---------- Posts ---------- */
 .post-outer {
@@ -235,10 +242,10 @@ img { max-width: 100%; height: auto; }
   border-top: 4px solid var(--sp-rosa-400);
   border-radius: 8px;
   box-shadow: 0 4px 16px var(--sp-sombra);
-  margin: 4px 2px 20px;
-  padding: 20px 10px;
+  margin: 0 0 var(--sp-gap);
+  padding: 20px 14px;
 }
-h3.post-title { margin: 20px 0 0; text-align: center; border-bottom: 1px solid var(--sp-azul-500); }
+h3.post-title { margin: 20px 0 0; padding: 0 80px; text-align: center; border-bottom: 1px solid var(--sp-azul-500); }
 h3.post-title a {
   font-family: var(--sp-fonte-titulo);
   font-size: 30px;
@@ -252,8 +259,11 @@ h3.post-title a:hover { color: var(--sp-rosa-700); text-decoration: none; }
   font: normal normal 11px var(--sp-fonte-texto);
   color: var(--sp-branco);
   background: var(--sp-rosa-700);
-  float: right;
-  margin-right: -11px;
+  position: absolute;
+  top: 14px;
+  right: -8px;
+  z-index: 2;
+  margin: 0;
   padding: 4px 8px;
 }
 .post-header { margin: 0 0 1em; line-height: 1.6; }
@@ -292,8 +302,8 @@ big { font-size: 50px; color: var(--sp-rosa-600); line-height: 30px; float: left
   box-shadow: 0 3px 12px var(--sp-sombra);
   font: normal normal 12px var(--sp-fonte-texto);
   color: var(--sp-texto);
-  margin: 10px 0 20px;
-  padding: 10px;
+  margin: 0 0 var(--sp-gap);
+  padding: 12px 14px;
 }
 .sidebar .widget:first-child { margin-top: 0; }
 .sidebar .widget:last-child { margin-bottom: 0; }
@@ -400,6 +410,20 @@ big { font-size: 50px; color: var(--sp-rosa-600); line-height: 30px; float: left
 #rodape-creditos a:link, #rodape-creditos a:visited { color: var(--sp-azul-900); }
 #rodape-creditos a:hover { color: var(--sp-rosa-700); text-decoration: underline; }
 
+/* Gadgets tecnicos (botao voltar ao topo e script do AddToAny): sem cartao, nao ocupam espaco na sidebar */
+.sidebar #HTML7, .sidebar #HTML8 { background: none; border: 0; box-shadow: none; margin: 0; padding: 0; min-height: 0; height: 0; overflow: visible; }
+.sidebar #HTML8 { display: none; }
+.sidebar .widget:empty { display: none; }
+
+/* Gadgets de anuncio (AdSense1 e HTML9): so viram cartao quando ha anuncio carregado.
+   Sem anuncio (celular, bloqueador, sem preenchimento) ficam recolhidos, sem cartao em branco.
+   Nao usar display:none aqui: o AdSense precisa medir a largura do espaco para preencher. */
+.sidebar .AdSense:not(:has(iframe, ins[data-ad-status="filled"])),
+.sidebar #HTML9:not(:has(ins[data-ad-status="filled"])) {
+  height: 0; min-height: 0; margin: 0; padding: 0; border: 0;
+  background: none; box-shadow: none; overflow: hidden; opacity: 0; pointer-events: none;
+}
+
 /* ---------- Botao voltar ao topo ---------- */
 #sp-top {
   position: fixed; right: 16px; bottom: 16px; z-index: 1000;
@@ -411,17 +435,63 @@ big { font-size: 50px; color: var(--sp-rosa-600); line-height: 30px; float: left
 #sp-top[hidden] { display: none; }
 #sp-top:hover { filter: brightness(1.1); }
 
-/* ---------- Mobile ---------- */
+/* ---------- Responsivo: o celular usa o mesmo layout ---------- */
+img, iframe, video, embed, object { max-width: 100%; }
+img { height: auto; }
+.Header img { max-width: 100%; height: auto; }
+.post-body { overflow-wrap: anywhere; }
+.post-body table { display: block; max-width: 100%; overflow-x: auto; }
+.sidebar .widget { overflow-wrap: anywhere; }
+.sidebar .widget .widget-content { max-width: 100%; }
+
+@media (max-width: 860px) {
+  .main-inner { padding: 12px 10px; margin-top: 0; }
+  .header-inner { margin-top: 0; padding: 4px 10px 0; }
+  .tabs-inner { margin: .4em 0 0; padding: 0 10px; }
+  .tabs-inner .widget { position: relative; }
+  /* menu suspenso (a classe .sp-menu e o botao sao criados pelo script do rodape) */
+  .sp-menu-toggle {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; min-height: 44px; padding: 6px 16px;
+    font: 18px/1.2 var(--sp-fonte-menu); color: var(--sp-texto);
+    background: var(--sp-rosa-400); border: 2px solid var(--sp-rosa-400); border-radius: 999px;
+    box-shadow: 0 2px 6px var(--sp-sombra); cursor: pointer;
+  }
+  .sp-menu-toggle:after { content: '\25BE'; transition: transform .2s; }
+  .sp-menu-toggle[aria-expanded="true"]:after { transform: rotate(180deg); }
+  .tabs-inner .widget-content.sp-menu {
+    display: none; flex-direction: column; flex-wrap: nowrap; gap: 2px;
+    position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 50;
+    background: var(--sp-branco); border: 2px solid var(--sp-rosa-400); border-radius: 16px;
+    padding: 6px; box-shadow: 0 8px 20px var(--sp-sombra);
+  }
+  .tabs-inner .widget-content.sp-menu.open { display: flex; }
+  .sp-menu .menuattitude { flex: none; width: 100%; background: transparent; border: 0; border-radius: 10px; box-shadow: none; text-align: left; line-height: 1.2; }
+  .sp-menu .menuattitude a { padding: 12px 14px; }
+  .sp-menu .menuattitude:hover { background: var(--sp-azul-700); }
+  .main-inner h2.date-header { position: static; display: inline-block; float: none; margin: 0 0 10px; }
+  h3.post-title { padding: 0; }
+  .comments .comment-block { margin-left: 62px; }
+  #rodape-creditos table, #rodape-creditos tbody, #rodape-creditos tr, #rodape-creditos td { display: block; width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .Header img.sp-logo { max-width: 340px; }
+  .sp-menu-toggle { font-size: 17px; }
+  .post-outer { padding: 16px 10px; }
+  h3.post-title a { font-size: 24px; }
+  .post-footer { font-size: 18px; }
+  .sidebar h2 { font-size: 21px; }
+  .pagenavi a, .pagenavi span { min-width: 34px; padding: 5px 9px; font-size: 15px; }
+  .pagenavi .sp-hide-sm { display: none; }
+  .comments .comment-block { margin-left: 0; clear: both; }
+  #sp-top { right: 10px; bottom: 10px; }
+}
+
+/* Reserva: se o Blogger ainda servir o modelo simplificado */
 body.mobile { padding: 0 10px; background-size: 100% auto; }
-body.mobile .AdSense { margin: 0 -10px; }
 .mobile-post-outer a { color: var(--sp-azul-700); }
 .mobile-link-button { background-color: var(--sp-azul-700); }
 .mobile-link-button a:link, .mobile-link-button a:visited { color: var(--sp-branco); }
-@media (max-width: 600px) {
-  .pagenavi a, .pagenavi span { min-width: 34px; padding: 5px 9px; font-size: 15px; }
-  .pagenavi .sp-hide-sm { display: none; }
-  h3.post-title a { font-size: 24px; }
-}
 ]]></b:skin>
 
     <b:template-skin>
@@ -430,62 +500,42 @@ body.mobile .AdSense { margin: 0 -10px; }
       <b:variable default='310px' name='main.column.right.width' type='length' value='300px'/>
 
       <![CDATA[
-      body {
-        min-width: $(content.width);
-      }
-
+      /* Layout em duas colunas: posts flexiveis + sidebar fixa; empilha no celular */
+      body { min-width: 0; }
       .content-outer, .content-fauxcolumn-outer, .region-inner {
-        min-width: $(content.width);
+        min-width: 0;
         max-width: $(content.width);
-        _width: $(content.width);
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
       }
-
-      .main-inner .columns {
-        padding-left: $(main.column.left.width);
-        padding-right: $(main.column.right.width);
+      .main-inner .columns { padding-left: 0; padding-right: 0; }
+      .main-inner .fauxcolumn-outer { display: none; }
+      .main-inner .columns-inner {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--sp-gap, 20px);
       }
-
-      .main-inner .fauxcolumn-center-outer {
-        left: $(main.column.left.width);
-        right: $(main.column.right.width);
-        /* IE6 does not respect left and right together */
-        _width: expression(this.parentNode.offsetWidth -
-            parseInt("$(main.column.left.width)") -
-            parseInt("$(main.column.right.width)") + 'px');
-      }
-
-      .main-inner .fauxcolumn-left-outer {
-        width: $(main.column.left.width);
-      }
-
-      .main-inner .fauxcolumn-right-outer {
-        width: $(main.column.right.width);
-      }
-
-      .main-inner .column-left-outer {
-        width: $(main.column.left.width);
-        right: 100%;
-        margin-left: -$(main.column.left.width);
-      }
-
+      .main-inner .column-center-outer { flex: 1 1 0; min-width: 0; float: none; width: auto; }
+      .main-inner .column-left-outer { display: none; }
       .main-inner .column-right-outer {
+        flex: 0 0 $(main.column.right.width);
         width: $(main.column.right.width);
-        margin-right: -$(main.column.right.width);
+        float: none;
+        margin: 0;
+      }
+      @media (max-width: 860px) {
+        .main-inner .columns-inner { flex-direction: column; align-items: stretch; }
+        .main-inner .column-center-outer, .main-inner .column-right-outer { flex: none; width: 100%; }
       }
 
-      #layout {
-        min-width: 0;
-      }
-
-      #layout .content-outer {
-        min-width: 0;
-        width: 800px;
-      }
-
-      #layout .region-inner {
-        min-width: 0;
-        width: auto;
-      }
+      #layout { min-width: 0; }
+      #layout .content-outer { min-width: 0; width: 800px; }
+      #layout .region-inner { min-width: 0; width: auto; }
+      #layout .main-inner .columns-inner { display: block; }
+      #layout .main-inner .column-center-outer { float: left; width: 60%; }
+      #layout .main-inner .column-right-outer { float: right; width: 38%; margin: 0; }
+      #layout .main-inner .column-left-outer { display: block; width: 0; }
       ]]>
     </b:template-skin>
   
@@ -517,7 +567,7 @@ body.mobile .AdSense { margin: 0 -10px; }
       gapi.load(&quot;gapi.iframes:gapi.iframes.style.bubble&quot;, function() {
         if (gapi.iframes &amp;&amp; gapi.iframes.getContext) {
           gapi.iframes.getContext().openChild({
-              url: &#39;https://www.blogger.com/navbar/5086014451728961904?origin\x3dhttp://localhost:80&#39;,
+              url: &#39;https://www.blogger.com/navbar/5086014451728961904?origin\x3dhttps://www.blogger.com&#39;,
               where: document.getElementById(&quot;navbar-iframe-container&quot;),
               id: &quot;navbar-iframe&quot;
           });
@@ -604,45 +654,28 @@ head.appendChild(script);
       <b:section class='header' id='header' maxwidgets='1' showaddelement='no'>
         <b:widget id='Header1' locked='false' title='Sakura Planet ✩ O lugar onde a magia existe! (Cabeçalho)' type='Header' version='1'>
           <b:widget-settings>
-            <b:widget-setting name='displayUrl'>https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgM7qokIlOHqyEqgFilGtxF3c1AMeXneEfaQs5qOLWMUS6_7q1chChoLi-WfXuuPfLqj7Dc6WRNb95EweF0uOtaq7POQReQHD9hFKziBGm2FatgnWSsboWKozbJEWRwB8DFIJ4MT1w7rSib1HqVkWpe8fdRD9iQ-iWGg3zXofPEYRdAWHaFR_w_b3LZngoz/s1100/logo-sakura-planet.png</b:widget-setting>
-            <b:widget-setting name='displayHeight'>430</b:widget-setting>
+            <b:widget-setting name='displayUrl'>https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw6PF6QOPq_xv9QRg9eIvyX4Psn0jX3iHJAVd_XedLkT-CyiBU-LYFVlAzVJ_Bxmo7xP5jO2Sj7kJ6yqZjm2B7Hs-JKvp9v1QpeAlrphyphenhypheneu74Zyq4v1QBYYBXmoYF7Zqxcw2kcmW0Q_1MK566tcpqW4FglhOPKgCcJvxRHCM2x1zXvRNl_vG0HRKZaPoiY/s1024/logo-sakura-planet-2026.png</b:widget-setting>
+            <b:widget-setting name='displayHeight'>417</b:widget-setting>
             <b:widget-setting name='sectionWidth'>600</b:widget-setting>
             <b:widget-setting name='useImage'>true</b:widget-setting>
             <b:widget-setting name='shrinkToFit'>false</b:widget-setting>
             <b:widget-setting name='imagePlacement'>BEHIND</b:widget-setting>
-            <b:widget-setting name='displayWidth'>1100</b:widget-setting>
+            <b:widget-setting name='displayWidth'>1024</b:widget-setting>
           </b:widget-settings>
           <b:includable id='main'>
 
   <b:if cond='data:useImage'>
     <b:if cond='data:imagePlacement == &quot;BEHIND&quot;'>
-      <!--
-      Show image as background to text. You can't really calculate the width
-      reliably in JS because margins are not taken into account by any of
-      clientWidth, offsetWidth or scrollWidth, so we don't force a minimum
-      width if the user is using shrink to fit.
-      This results in a margin-width's worth of pixels being cropped. If the
-      user is not using shrink to fit then we expand the header.
-      -->
-      <b:if cond='data:mobile'>
-        <div id='header-inner'>
-          <div class='titlewrapper' style='background: transparent'>
-            <h1 class='title' style='background: transparent; border-width: 0px'>
-              <b:include name='title'/>
-            </h1>
-          </div>
+      <!-- Logo como imagem real (responsiva) em vez de background-image com altura fixa -->
+      <div id='header-inner'>
+        <a class='sp-logo-link' expr:href='data:blog.homepageUrl'>
+          <img class='sp-logo' expr:alt='data:title' expr:id='data:widget.instanceId + &quot;_headerimg&quot;' expr:src='data:sourceUrl' expr:height='data:height' expr:width='data:width' fetchpriority='high'/>
+        </a>
+        <div class='sp-visually-hidden'>
+          <h1 class='title'><b:include name='title'/></h1>
           <b:include name='description'/>
         </div>
-      <b:else/>
-        <div expr:style='&quot;background-image: url(\&quot;&quot; + data:sourceUrl + &quot;\&quot;); &quot;                      + &quot;background-position: &quot;                      + data:backgroundPositionStyleStr + &quot;; &quot;                      + data:widthStyleStr                      + &quot;min-height: &quot; + data:height                      + &quot;_height: &quot; + data:height                      + &quot;background-repeat: no-repeat; &quot;' id='header-inner'>
-          <div class='titlewrapper' style='background: transparent'>
-            <h1 class='title' style='background: transparent; border-width: 0px'>
-              <b:include name='title'/>
-            </h1>
-          </div>
-          <b:include name='description'/>
-        </div>
-      </b:if>
+      </div>
     <b:else/>
       <!--Show the image only-->
       <div id='header-inner'>
@@ -732,22 +765,6 @@ head.appendChild(script);
         </b:widget>
       </b:section>
       <b:section class='tabs' id='crosscol-overflow' showaddelement='no'>
-        <b:widget id='HTML4' locked='false' title='' type='HTML'>
-          <b:widget-settings>
-            <b:widget-setting name='content'><![CDATA[<br />]]></b:widget-setting>
-          </b:widget-settings>
-          <b:includable id='main'>
-  <!-- only display title if it's non-empty -->
-  <b:if cond='data:title != &quot;&quot;'>
-    <h2 class='title'><data:title/></h2>
-  </b:if>
-  <div class='widget-content'>
-    <data:content/>
-  </div>
-
-  <b:include name='quickedit'/>
-</b:includable>
-        </b:widget>
       </b:section>
     </div>
     </div>
@@ -842,7 +859,7 @@ head.appendChild(script);
                 <b:widget-setting name='showReactions'>false</b:widget-setting>
               </b:widget-settings>
               <b:includable id='main' var='top'>
-  <b:if cond='!data:mobile'>
+  <b:if cond='true'>
     <!-- posts -->
     <div class='blog-posts hfeed'>
 
@@ -1095,7 +1112,7 @@ head.appendChild(script);
   <div class='feed-links'>
   <data:feedLinksMsg/>
   <b:loop values='data:links' var='f'>
-     <a class='feed-link' expr:href='data:f.url' expr:type='data:f.mimeType' target='_blank'><data:f.name/> (<data:f.feedType/>)</a>
+     <a class='feed-link' expr:href='data:f.url' expr:type='data:f.mimeType' rel='noopener' target='_blank'><data:f.name/> (<data:f.feedType/>)</a>
   </b:loop>
   </div>
 </b:includable>
@@ -1852,7 +1869,33 @@ head.appendChild(script);
 
 </tr>
 </table>
-<script>document.getElementById(&#39;sp-year&#39;).textContent = new Date().getFullYear();</script>
+<script>
+//<![CDATA[
+document.getElementById('sp-year').textContent = new Date().getFullYear();
+(function () {
+  var first = document.querySelector('.menuattitude');
+  if (!first) { return; }
+  var menu = first.parentNode;
+  menu.id = menu.id || 'sp-menu';
+  menu.classList.add('sp-menu');
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'sp-menu-toggle';
+  btn.setAttribute('aria-expanded', 'false');
+  btn.setAttribute('aria-controls', menu.id);
+  btn.textContent = '\u2630 Menu';
+  menu.parentNode.insertBefore(btn, menu);
+  function close() { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+  btn.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) { close(); } });
+  document.addEventListener('click', function (e) { if (!menu.contains(e.target) && e.target !== btn) { close(); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { close(); } });
+})();
+//]]>
+</script>
 </div>
 
 </body>

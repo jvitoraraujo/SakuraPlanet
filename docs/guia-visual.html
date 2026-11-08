@@ -107,7 +107,20 @@ ul{padding-left:20px}
 <blockquote>Citação sobre fundo Azul 100.</blockquote><div class="ft">Comentários · Marcadores</div></div>
 </section>
 
-<h2>5. Como editar</h2>
+<h2>5. Layout e celular</h2>
+<section>
+<ul>
+<li><b>Alinhamento:</b> posts e sidebar partem do mesmo topo e usam o mesmo espaçamento, definido por <code>--sp-gap</code> (20px). Para mudar o respiro do site, altere só essa variável.</li>
+<li><b>Colunas:</b> posts flexíveis + sidebar de 300px (<code>main.column.right.width</code>). Largura máxima do site: 1020px.</li>
+<li><b>Celular (até 860px):</b> a sidebar passa para baixo dos posts, a data do post vira etiqueta acima do título e o rodapé empilha.</li>
+<li><b>Logo no cabeçalho:</b> é uma imagem real (<code>img.sp-logo</code>), com largura 100% e altura automática; abaixo de 480px fica limitada a 340px e centralizada. Para trocar a imagem, use Layout › Cabeçalho › Editar. Não volte a usar a opção de imagem como fundo do texto com altura fixa.</li>
+<li><b>Menu no celular (até 860px):</b> as pílulas viram um menu suspenso. O botão "☰ Menu" usa Rosa 400 com texto #444; a lista abre em cartão branco com borda rosa e hover azul. Todos os itens devem ficar no mesmo gadget HTML.</li>
+<li><b>Telas pequenas (até 480px):</b> títulos e botões menores, paginação sem os botões "primeira" e "última".</li>
+<li><b>Ajuste do Blogger:</b> Tema › ⚙ › Tema para dispositivos móveis › <i>"Não. Mostrar o modelo para computador em dispositivos móveis"</i>. Sem isso, o Blogger pode servir o modelo simplificado.</li>
+<li><b>Regra para novos widgets:</b> não use larguras fixas em pixels. Use <code>max-width:100%</code> e teste abaixo de 400px.</li>
+</ul>
+</section>
+<h2>6. Como editar</h2>
 <section>
 <ul>
 <li><b>Trocar cores:</b> Tema › Editar HTML › procure <code>:root</code> e altere as variáveis <code>--sp-*</code>. Nunca digite um hexadecimal solto nas regras.</li>
@@ -118,7 +131,7 @@ ul{padding-left:20px}
 </ul>
 </section>
 
-<h2>6. Evitar</h2>
+<h2>7. Evitar</h2>
 <section>
 <ul>
 <li class="no">Verde, amarelo, roxo, magenta (#fa58f4) e bege. Não fazem parte da identidade.</li>
@@ -126,6 +139,9 @@ ul{padding-left:20px}
 <li class="no">Comentários CSS com <code>//</code>. Em CSS só vale <code>/* */</code>.</li>
 <li class="no"><code>font-style: bold</code>, <code>font: century gothic</code> e chaves soltas. Invalidam a regra seguinte.</li>
 <li class="no">Bloquear o botão direito do mouse no rodapé.</li>
+<li class="no">Larguras fixas em pixels em widgets e posts: quebram o layout no celular.</li>
+<li class="no">Esconder gadgets de anúncio com <code>display:none</code>: o AdSense não preenche em espaço sem largura. Recolha com altura zero, como o tema já faz.</li>
+<li class="no">Gadgets vazios ou com <code>&lt;br&gt;</code> só para criar espaçamento. No celular viram cartões em branco na sidebar. Use CSS (margens e <code>--sp-gap</code>).</li>
 </ul>
 <p class="ok"><b>Checklist antes de salvar:</b> abra a home, um marcador, um post e a busca; teste uma página numerada; veja no celular.</p>
 </section>
